@@ -1,0 +1,195 @@
+#include<stdio.h>
+#include<math.h>
+#include<string.h>
+ 
+int cant;
+double sumx=0,sumy=0,sumxy=0,sumx2=0,m,o;
+ 
+void generador(float a[], float b[]){
+        for (int i=0;i<cant;i++){
+                sumx=sumx+a[i];
+                sumy=sumy+b[i];
+                sumxy=sumxy+(a[i]*b[i]);
+                sumx2=sumx2+(a[i]*a[i]);
+        }
+        m=((cant*sumxy)-(sumx*sumy))/((cant*sumx2)-(sumx*sumx));
+        o=((sumy*sumx2)-(sumxy*sumx))/((cant*sumx2)-(sumx*sumx));
+}
+ 
+void colecta(){
+        sumx=0;
+        sumy=0;
+        sumxy=0;
+        sumx2=0;
+        printf("¿Cuantos datos tiene de las variables? ");
+        scanf("%i", &cant);
+        float x[cant],y[cant];
+        puts("Ingrese en orden los datos de su variable x:");
+        for(int i=0;i<cant;i++){
+                scanf("%f", &x[i]);
+        }
+        puts("Ingrese en orden los datos de su variable y:");
+        for(int i=0;i<cant;i++){
+                scanf("%f", &y[i]);
+        }
+        generador(x,y);
+}
+ 
+void termico(){
+        double p1,p2;
+        puts("En esta práctica se generaran dos modelos matemáticos del calor suministrado, sin embargo, para el primero la variable x son las temperaturas y en el segundo la diferencia entre las temperaturas.");
+        puts("Por favor ingrese los datos para su primer modelo.");
+        colecta();
+        p1=m;
+        if (o>=0){
+                printf("El primer modelo es:\n We[J]=%lf[J/ºC]*T[ºC]+%lf[J]\n", m, o);
+        } else {
+                printf("El primer modelo es:\n We[J]=%lf[J/ºC]*T[ºC]%lf[J]\n", m, o);
+        }
+        puts("En donde la pendiente representa la capacidad térmica del líquido usado y la ordenada la energía necesaria para llevar la temperatura a 0 [ºC]");
+        puts("Ahora ingrese los datos de su segundo modelo.");
+        colecta();
+        p2=m;
+        if (o>=0){
+                printf("El segundo modelo es:\n We[J]=%lf[J/ºC]*ΔT[ºC]+%lf[J]\n", m, o);
+        } else {
+                printf("El segundo modelo es:\n We[J]=%lf[J/ºC]*ΔT[ºC]%lf[J]\n", m, o);
+        }
+        puts("En donde la pendiente represente la capacidad térmica del líquido usado y la ordenada el error experimental.");
+        if (p1!=p2){
+                puts("En caso de que las pendientes no sean iguales, la del segundo modelo será la verdadera, ya que la diferencia se debe a que el primer modelo usa más decimales de los que aguanta el sistema.");
+        }
+}
+ 
+void volt(){
+double v;
+        puts("En esta práctica se generará un modelo matemático para el voltaje leído. ");
+        puts("Por favor ingrese los datos en voltios [V] del modelo.");
+        colecta();
+        v=m;
+        if (o>=0){
+                printf("El modelo es:\n VL[V]=%lf[V/V]*VP[V]+%lf[V]\n", m, o);
+        } else {
+                printf("El modelo es:\n VL[V]=%lf[V/V]*VP[V]+%lf[V]\n", m, o);
+        }
+ 
+        puts("En donde la pendiente representa la sensibilidad y la ordenada el error de experimentación.");
+}
+ 
+void dina(){
+printf("En esta práctica se generará un modelo matemático para la caracterización de un dinamómetro.\n");
+
+    // Recolectar datos
+    colecta();
+
+    // Mostrar el modelo matemático con las unidades correctas
+    if (o >= 0) {
+        printf("El modelo matemático es:\nWl[N] = %lf [N/N]*Wp[N] + %lf [N]\n", m, o);
+    } else {
+        printf("El modelo matemático es:\nWl[N] = %lf [N/N]*Wp[N] %lf [N]\n", m, o);
+    }
+
+    printf("Donde:\n");
+    printf("- La pendiente (%lf [N/N]) representa la sensibilidad del dinamómetro.\n", m);
+    printf("- La ordenada al origen (%lf [N]) representa el error experimental.\n", o);
+}
+
+void generadoresp(float altura[], float presion[]){
+    for (int i = 0; i < cant; i++) {
+        sumx = sumx + altura[i];
+        sumy = sumy + presion[i];
+        sumxy = sumxy + (altura[i] * presion[i]);
+        sumx2 = sumx2 + (altura[i] * altura[i]);
+    }
+    m = ((cant * sumxy) - (sumx * sumy)) / ((cant * sumx2) - (sumx * sumx));
+    o = ((sumy * sumx2) - (sumxy * sumx)) / ((cant * sumx2) - (sumx * sumx));
+
+    printf("\nResultados:\n");
+    printf("La pendiente m es: %f Pa/m\n", m);
+    printf("El término independiente o es: %f Pa\n", o);
+    printf("\nModelo matemático obtenido:\n");
+    printf("P_man [Pa] = %f [Pa/m] * h [m] + %f [Pa]\n", m, o);
+}
+
+void ondular() {
+    double p1, p2;
+    puts("En esta práctica se generarán dos modelos matemáticos del movimiento ondulatorio:");
+    puts("1. Para el primer modelo, la variable x será la frecuencia (f) en Hz y la variable y será la longitud de onda (λ) en metros.");
+    puts("2. Para el segundo modelo, la variable x será el periodo (τ) en segundos, calculado como el inverso de la frecuencia, y la variable y será la longitud de onda (λ) en metros.");
+    
+    puts("Por favor, ingrese los datos para el primer modelo.");
+    colecta();
+    p1 = m;
+    if (o >= 0) {
+        printf("El primer modelo es:\nλ[m] = %lf[m/s] * f[Hz] + %lf[m]\n", m, o);
+    } else {
+        printf("El primer modelo es:\nλ[m] = %lf[m/s] * f[Hz] %lf[m]\n", m, o);
+    }
+    puts("En este modelo, la pendiente representa la velocidad de propagación de la onda y la ordenada al origen representa el ajuste experimental.");
+    
+    puts("Ahora, ingrese los datos para el segundo modelo.");
+    colecta();
+    p2 = m;
+    if (o >= 0) {
+        printf("El segundo modelo es:\nλ[m] = %lf[m/s] * τ[s] + %lf[m]\n", m, o);
+    } else {
+        printf("El segundo modelo es:\nλ[m] = %lf[m/s] * τ[s] %lf[m]\n", m, o);
+    }
+    puts("En este modelo, la pendiente representa nuevamente la velocidad de propagación de la onda, mientras que la ordenada al origen indica el error experimental.");
+    
+    if (fabs(p1 - p2) > 1e-6) {
+        puts("En caso de que las pendientes no sean iguales, el segundo modelo es más confiable debido a su cálculo más directo.");
+    }
+}
+
+
+
+void presion(){
+    printf("¿Cuántos datos tiene de presión y altura? ");
+    scanf("%i", &cant);
+    
+    float altura[cant], presion[cant];
+    
+    puts("Ingrese en orden los datos de la altura (en metros):");
+    for (int i = 0; i < cant; i++) {
+        scanf("%f", &altura[i]);
+    }
+    
+    puts("Ingrese en orden los datos de la presión (en Pa):");
+    for (int i = 0; i < cant; i++) {
+        scanf("%f", &presion[i]);
+    }
+    
+    generadoresp(altura, presion);
+}
+ 
+int main(){
+        int selec;
+ 
+        printf("Ingrese el número que represente a la práctica de la que va a sacar el modelo o 6 en caso de querer salir:\n 1.Caracterización de un voltímetro analógico\n 2.Caracterización de un dinamómetro\n 3.Gradiente de presión\n 4.Algunas propiedades térmicas del agua\n 5.Movimiento ondulatorio\n 6.Salir\n");
+        scanf("%i", &selec);
+        switch (selec){
+                case 1:
+                        volt();
+                        break;
+                case 2:
+                        dina();
+                        break;
+                case 3:
+                        presion();
+                        break;
+                case 4:
+                        termico();
+                        break;
+                case 5:
+                        ondular();
+                        break;
+                case 6:
+                        puts("Gracias por usar este programa");
+                        break;
+                default:
+                        puts("Usted ingreso una opción inválida por lo cual se cerrará el programa.");
+                        break;
+        }
+        return 0;
+}
